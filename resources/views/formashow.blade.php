@@ -3,69 +3,52 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-    <table class="table text-center">
-    @if(count($formaAll) < 1)
-    <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Vardas</th>
-      <th scope="col">Pavarde</th>
-      <th scope="col">El. pastas</th>
-      <th scope="col">Tipas</th>
-      <th scope="col">Pristatymo Budas</th>
-      <th scope="col">Apmokejimas</th>
-      <th scope="col">Komentaras</th>
-      <th scope="col">Busena</th>
-      <th scope="col">Pateikta</th>
-    </tr>
-  </thead>
+        <h5 class="text-center">Pateiktos formos</h5>
+        @if(count($errors) > 0)
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li>{{$error}}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        @if(\Session::has('success'))
+            <div class="alert alert-success">
+                <p>{{Session::get('success')}}</p>
+            </div>
+        @endif
+        @if(\Session::has('error'))
+            <div class="alert alert-danger">
+                <p>{{Session::get('error')}}</p>
+            </div>
+        @endif
+    <table id="formaTable" class="table text-center">
+    @include('Tables.UserFormsTableTop')
   <tbody>
-    <tr>
-      <td colspan="10">Nera irasu</td>
-    </tr>
   </tbody>
-    @else
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Vardas</th>
-      <th scope="col">Pavarde</th>
-      <th scope="col">El. pastas</th>
-      <th scope="col">Tipas</th>
-      <th scope="col">Pristatymo Budas</th>
-      <th scope="col">Apmokejimas</th>
-      <th scope="col">Komentaras</th>
-      <th scope="col">Busena</th>
-      <th scope="col">Pateikta</th>
-    </tr>
-  </thead>
-  <tbody>
-  @foreach($formaAll as $key=>$forma)
-    <tr>
-      <th scope="row">{{$key}}</th>
-      <td>{{$forma->vardas}}</td>
-      <td>{{$forma->pavarde}}</td>
-      <td>{{$vartotojas->email}}</td>
-      <td>{{$forma->tipas}}</td>
-      @if($forma->pristatymo_budas == 0)
-      <td>{{"Kurjerio paslauga"}}</td>
-      @else
-      <td>{{"Pristatysite patys"}}</td>
-      @endif
-      @if($forma->apmokejimas == 0)
-      <td>{{"Kortele"}}</td>
-      @else
-      <td>{{"Grynaisiais"}}</td>
-      @endif
-      <td>{{$forma->komentaras}}</td>
-      <td>{{$forma->busena}}</td>
-      <td>{{$forma->created_at}}</td>
-      <input name="invisible" type="hidden" value=" {{++$key}} ">
-    </tr>
-    @endforeach
-  </tbody>
-  @endif
 </table>
+        </div>
     </div>
-</div>
+
+@endsection
+@section('scripts')
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script>
+        $(document).ready( function () {
+            $('#formaTable').DataTable({
+            "processing": true,
+            "serverSide": true,
+                "ajax": "{{route('form-show-datatables')}}",
+                "columns": [
+                    { "data": "computer_brand"},
+                    { "data": "computer_model"},
+                    { "data": "comment"},
+                    { "data": "delivery"},
+                    { "data": "busena"},
+                    { "data": "saskaitos_nr"}
+                ]
+            });
+        } );
+    </script>
 @endsection

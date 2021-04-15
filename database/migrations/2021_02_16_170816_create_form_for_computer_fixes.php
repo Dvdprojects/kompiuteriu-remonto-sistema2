@@ -15,14 +15,16 @@ class CreateFormForComputerFixes extends Migration
     {
         Schema::create('formas', function (Blueprint $table) {
             $table->id();
-            $table->string('vardas');
-            $table->string('pavarde');
-            $table->string('tipas');
-            $table->string('komentaras');
-            $table->integer('pristatymo_budas');
-            $table->integer('apmokejimas');
-            $table->integer('vartotojo_id');
+            $table->string('computer_brand');
+            $table->string('computer_model');
+            $table->string('comment');
+            $table->string('address')->nullable();
+            $table->string('postal_code')->nullable();
+            $table->integer('delivery');
             $table->string('busena');
+            $table->string('saskaitos_nr');
+            $table->integer('comment_state')->default(0);
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

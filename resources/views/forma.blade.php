@@ -29,74 +29,99 @@
                 </div>
                 @endif
                 <form id="pcRegistrationForm" action="{{url('formpost')}}" method="post">
-                {{ method_field('PUT') }}
+                    {{ method_field('PUT') }}
                     {{ csrf_field() }}
-                    <div class="form-group row">
-                        <label for="vardas" class="col-sm-4 col-form-label">Vardas</label>
-                        <div class="col-sm-8">
-                        <input type="text" class="form-control" id="vardas" name="vardas" placeholder="Vardas" required>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <!-- Vardas input -->
+                            <div class="form-outline">
+                                <input type="text" id="name" name="name" class="form-control" value="{{$vartotojas->name}}" disabled/>
+                                <label class="form-label" for="form6Example1">Vardas</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="pavarde" class="col-sm-4 col-form-label">Pavardė</label>
-                        <div class="col-sm-8">
-                        <input type="text" class="form-control" id="pavarde" name="pavarde" placeholder="Pavardė" required>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label for="tipas" class="col-sm-4 col-form-label">Tipas</label>
-                        <div class="col-sm-8">
-                        <input type="text" class="form-control" id="tipas" name="tipas" placeholder="Tipas" required>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-sm-4">Pristatymo būdas</div>
-                        <div class="col-sm-8">
-                        <div class="form-check col-sm-4">
-                            <input class="form-check-input" type="radio" id="pristatymo_budas" name="pristatymo_budas" value="1">
-                            <label class="form-check-label" for="pristatymo_budas">
-                            Pristatysite patys
-                            </label>
-                        </div>
-                            <div class="form-check col-sm-4">
-                                <input class="form-check-input" type="radio" id="pristatymo_budas" name="pristatymo_budas" value="0">
-                                <label class="form-check-label" for="pristatymo_budas">
-                                    Paims kurjeris
-                                </label>
+                        <!-- Pavarde input -->
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" id="surname" name="surname" class="form-control" value="{{$vartotojas->surname}}" disabled/>
+                                <label class="form-label" for="form6Example2">Pavardė</label>
                             </div>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-sm-4">Apmokejimas</div>
-                        <div class="col-sm-8">
-                        <div class="form-check col-sm-4">
-                            <input class="form-check-input" type="radio" id="apmokejimas" name="apmokejimas" value="1">
-                            <label class="form-check-label" for="apmokejimas">
-                            Grynaisiais
-                            </label>
-                        </div>
-                            <div class="form-check col-sm-4">
-                                <input class="form-check-input" type="radio" id="apmokejimas" name="apmokejimas" value="0">
-                                <label class="form-check-label" for="apmokejimas">
-                                    Apmokejimas kortele
-                                </label>
-                            </div>
-                        </div>
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <input type="text" id="email" name="email"  class="form-control" disabled/>
+                        <label class="form-label" for="form6Example3">{{$vartotojas->email}}</label>
                     </div>
-                    <div class="form-group row">
-                        <label for="komentaras" class="col-sm-4 col-form-label">Komentaras</label>
-                        <div class="col-sm-8">
-                        <textarea class="form-control" id="komentaras" name="komentaras" rows="3" required></textarea>
-                        </div>
+
+                    <!-- Tel. Nr input -->
+                    <div class="form-outline mb-4">
+                        <input type="text" id="phoneNumber" name="phoneNumber"  class="form-control" value="{{$vartotojas->phone_number}}" disabled/>
+                        <label class="form-label" for="form6Example4">Telefono numeris</label>
                     </div>
-                    <div class="form-group row">
-                        <div class="col-sm-12 text-center">
-                        <button type="submit" id="submit" class="btn btn-primary">Pateikti</button>
-                        </div>
+
+                    <!-- Miestas input -->
+                    <div class="form-outline mb-4">
+                        <input type="text" id="city" name="city"  class="form-control" value="{{$vartotojas->city}}" disabled/>
+                        <label class="form-label" for="form6Example7">Miestas</label>
                     </div>
-                    </form>
+                    <!-- Kompiuterio gamintojas input -->
+                    <div class="form-outline mb-4">
+                        <input type="text" id="computerBrand" name="computerBrand"  class="form-control" required/>
+                        <label class="form-label" for="form6Example7">Kompiuterio gamintojas</label>
+                    </div>
+                    <!-- Kompiuterio modelis input -->
+                    <div class="form-outline mb-4">
+                        <input type="text" id="computerModel" name="computerModel"  class="form-control" required/>
+                        <label class="form-label" for="form6Example7">Kompiuterio modelis</label>
+                    </div>
+                    <!-- Komentaras input -->
+                    <div class="form-outline mb-4">
+                        <textarea class="form-control" id="comment" name="comment"  rows="4" required></textarea>
+                        <label class="form-label" for="form6Example7">Komentaras</label>
+                    </div>
+
+                    <!-- Checkbox -->
+                    <div class="form-check d-flex justify-content-center mb-4">
+                        <input
+                            class="form-check-input me-2"
+                            type="checkbox"
+                            value="1"
+                            id="delivery"
+                            name="delivery"
+                        />
+                        <label class="form-check-label" for="form6Example8"> Ar reikalingas kurjerio pristatymas? </label>
+                    </div>
+                    <!-- Adresas input -->
+                    <div class="form-outline mb-4" id="addressDiv" style="display: none">
+                        <input type="text" id="address" name="address"  class="form-control" />
+                        <label class="form-label" for="form6Example5">Adresas</label>
+                    </div>
+
+                    <!-- Pašto kodas input -->
+                    <div class="form-outline mb-4" id="postalCodeDiv" style="display: none">
+                        <input type="text" id="postalCode" name="postalCode"  class="form-control" />
+                        <label class="form-label" for="form6Example6">Pašto kodas</label>
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-primary btn-block mb-4">Pateikti</button>
+                </form>
             </div>
         </div>
     </div>
 </div>
+@endsection
+@section('scripts')
+    <script>
+        $('#delivery').click(function(){
+        if($(this).is(':checked')){
+            $('#addressDiv').show();
+            $('#postalCodeDiv').show();
+        } else {
+            $('#addressDiv').hide();
+            $('#postalCodeDiv').hide();
+        }
+        });
+    </script>
 @endsection
