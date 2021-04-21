@@ -27,36 +27,30 @@ class ProfileController extends Controller
      */
     public function index()
     {
-        $vartotojas = Auth::user();
-        return view('profile', compact('vartotojas'));
+        return view('profile');
     }
     public function changePassword(Request $request)
     {
-        $vartotojas = Auth::user();
-        $request->validate([
+        $this->validate($request,[
             'current_password' => ['required', 'password'],
             'new_password' => ['required'],
             'new_confirm_password' => ['same:new_password'],
         ]);
 
-        User::find($vartotojas->id)->update(['password'=> Hash::make($request->new_password)]);
+        Auth::user()->update(['password'=> Hash::make($request->new_password)]);
 
         return redirect()->route('profile')->with('success', 'Slaptažodis sėkmingai pakeistas.');
     }
     public function profilePost(Request $request)
     {
-        $validator = Validator::make($request->all(),
-            [
+            $this->validate($request,             [
                 'name' => 'required | max:32',
                 'surname' => 'required | max:32',
                 'phoneNumber' => 'required',
                 'city' => 'required | max:32',
             ]);
-        if ($validator->fails()){
-            return back()->withInput()->withErrors($validator);
-        }
 
-        $profileForm = User::find(Auth::user()->id);
+        $profileForm = Auth::user();
         $profileForm->name = $request->name;
         $profileForm->surname = $request->surname;
         $profileForm->phone_number = $request->phoneNumber;

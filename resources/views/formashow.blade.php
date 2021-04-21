@@ -23,7 +23,7 @@
                 <p>{{Session::get('error')}}</p>
             </div>
         @endif
-    <table id="formaTable" class="table text-center">
+    <table id="formDataTable" class="table text-center">
     @include('Tables.UserFormsTableTop')
   <tbody>
   </tbody>
@@ -36,19 +36,59 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
     <script>
         $(document).ready( function () {
-            $('#formaTable').DataTable({
+            $('#formDataTable').DataTable({
             "processing": true,
             "serverSide": true,
-                "ajax": "{{route('form-show-datatables')}}",
-                "columns": [
-                    { "data": "computer_brand"},
-                    { "data": "computer_model"},
-                    { "data": "comment"},
-                    { "data": "delivery"},
-                    { "data": "busena"},
-                    { "data": "saskaitos_nr"}
+                "ajax": {
+                    url: "{{route('form-show-datatables')}}",
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf"]').attr('content')
+                    },
+                },
+                columnDefs: [
+                    {
+                        className: 'text-center',
+                        targets: 6,
+                        orderable: false,
+                        render: function (data, type, row){
+                            var dataRow = '';
+                            if (data[1])
+                            {
+                                dataRow += '<div class="row">';
+                                dataRow += '<div class="col-md-3">';
+                                dataRow += '<a href="{{route('download-guarantee', '')}}/' + data[0] + '"> <i class="fas fa-file-alt"></i></a>';
+                                dataRow += '</div>';
+                                dataRow += '<div class="col-md-3">';
+                                dataRow += '<a href="{{route('leave-comment', '')}}/' + data[0] + '"> <i class="fas fa-comment-alt"></i></a>';
+                                dataRow += '</div>';
+                                dataRow += '<div class="col-md-3">';
+                                dataRow += '<a href="{{route('form-edit', '')}}/' + data[0] + '"> <i class="fas fa-edit"></i></a>';
+                                dataRow += '</div>';
+                                dataRow += '<div class="col-md-3">';
+                                dataRow += '<a href="{{route('form-delete', '')}}/' + data[0] + '"> <i class="fas fa-trash-alt"></i></a>';
+                                dataRow += '</div>';
+                                dataRow += '</div>';
+                            }
+                            else
+                            {
+                                dataRow += '<div class="row">';
+                                dataRow += '<div class="col-md-3">';
+                                dataRow += '<a href="{{route('download-guarantee', '')}}/' + data[0] + '"> <i class="fas fa-file-alt"></i></a>';
+                                dataRow += '</div>';
+                                dataRow += '<div class="col-md-3">';
+                                dataRow += '<a href="{{route('form-edit', '')}}/' + data[0] + '"> <i class="fas fa-edit"></i></a>';
+                                dataRow += '</div>';
+                                dataRow += '<div class="col-md-3">';
+                                dataRow += '<a href="{{route('form-delete', '')}}/' + data[0] + '"> <i class="fas fa-trash-alt"></i></a>';
+                                dataRow += '</div>';
+                                dataRow += '</div>';
+                            }
+                            return dataRow;
+                        }
+                    }
                 ]
             });
-        } );
+        });
     </script>
 @endsection

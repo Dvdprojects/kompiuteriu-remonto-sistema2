@@ -27,22 +27,17 @@ class ContactsController extends Controller
      */
     public function index()
     {
-        $vartotojas = Auth::user();
-        return view('contacts', compact('vartotojas'));
+        return view('contacts');
     }
     public function sendEmail(Request $request)
     {
-        $validator = Validator::make($request->all(),
-            [
-                'name' => 'required | max:64',
-                'surname' => 'required | max:64',
-                'phoneNumber' => 'required | max:12',
-                'emailHeader' => 'max:128',
-                'emailText' => 'max:256',
-            ]);
-        if ($validator->fails()){
-            return back()->withInput()->withErrors($validator);
-        }
+        $this->validate($request, [
+            'name' => 'required | max:64',
+            'surname' => 'required | max:64',
+            'phoneNumber' => 'required | max:12',
+            'emailHeader' => 'max:128',
+            'emailText' => 'max:256',
+        ]);
 
         $name = $request->name . ' ' . $request->surname;
         $account = Auth::user()->name . ' ' . Auth::user()->surname;

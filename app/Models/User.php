@@ -7,6 +7,51 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * App\Models\User
+ *
+ * @property int $id
+ * @property string|null $name
+ * @property string|null $surname
+ * @property string|null $phone_number
+ * @property string|null $city
+ * @property string $email
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property int $profile_verified
+ * @property int $role
+ * @property string $password
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $comments
+ * @property-read int|null $comments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Forma[] $forms
+ * @property-read int|null $forms_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @method static \Database\Factories\UserFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User wherePhoneNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereProfileVerified($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereRole($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereSurname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
+ * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Forum[] $forumPosts
+ * @property-read int|null $forum_posts_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ForumComments[] $forumPostsComments
+ * @property-read int|null $forum_posts_comments_count
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -41,9 +86,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     public function comments(){
-        return $this->hasMany('App\Models\Comment', 'user_id','id');
+        return $this->hasMany(Comment::class);
     }
     public function forms(){
-        return $this->hasMany('App\Models\Forma', 'user_id','id');
+        return $this->hasMany(Forma::class);
+    }
+    public function forumPosts(){
+        return $this->hasMany(Forum::class);
+    }
+    public function forumPostsComments(){
+        return $this->hasMany(ForumComments::class , 'user_id', 'id');
     }
 }

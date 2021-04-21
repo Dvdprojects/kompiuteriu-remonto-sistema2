@@ -26,7 +26,7 @@
             <table id="commentTable" class="table text-center">
                 @include('Tables.CommentsTableTop')
                 <tbody>
-                @forelse($vartotojas->comments as $comment)
+                @forelse(Auth::user()->comments as $comment)
                     @include('Tables.CommentsTable', ['forma' => $comment])
                 @empty
                     @include('Tables.CommentsTableEmpty')
@@ -37,9 +37,4 @@
     </div>
 @endsection
 @section('scripts')
-    <script>
-        $(document).ready( function () {
-            $('#commentTable').DataTable();
-        } );
-    </script>
 @endsection

@@ -35,14 +35,14 @@
                                 <div class="col">
                                     <!-- Vardas input -->
                                     <div class="form-outline">
-                                        <input type="text" id="name" name="name" class="form-control" value="{{$vartotojas->name}}" disabled/>
+                                        <input type="text" id="name" name="name" class="form-control" value="{{Auth::user()->name}}" disabled/>
                                         <label class="form-label" for="form6Example1">Vardas</label>
                                     </div>
                                 </div>
                                 <!-- Pavarde input -->
                                 <div class="col">
                                     <div class="form-outline">
-                                        <input type="text" id="surname" name="surname" class="form-control" value="{{$vartotojas->surname}}" disabled/>
+                                        <input type="text" id="surname" name="surname" class="form-control" value="{{Auth::user()->surname}}" disabled/>
                                         <label class="form-label" for="form6Example2">Pavardė</label>
                                     </div>
                                 </div>
@@ -65,10 +65,11 @@
                             </div>
 
                             <!-- Kompiuterio modelis input -->
-                            <div class="form-outline mb-4">
-                                <input type="number" id="rating" name="rating"  class="form-control" required/>
-                                <label class="form-label" for="form6Example7">Ivertinimas (1-5)</label>
-                            </div>
+                                <div class="" id="rateYo" style="margin: 0 auto;"></div>
+                                <input type="hidden" id="rating" name="rating"  class="form-control" required/>
+                                <div class="mt-5">
+
+                                </div>
                             <!-- Komentaras input -->
                             <div class="form-outline mb-4">
                                 <textarea class="form-control" id="comment" name="comment"  rows="4" required></textarea>
@@ -84,4 +85,18 @@
         </div>
         @endsection
         @section('scripts')
+            <script>
+                $(function () {
+                    $("#rateYo").rateYo({
+                        starWidth: "50px",
+                        rating: 1,
+                        precision: 1,
+                        fullStar: true,
+                        onChange: function (rating, rateYoInstance) {
+                            var normalFill = $("#rateYo").rateYo("option", "rating");
+                            $('#rating').val(normalFill);
+                        }
+                    });
+                });
+            </script>
         @endsection

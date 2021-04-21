@@ -31,13 +31,13 @@ Route::middleware(['checkProfileState'])->group(function () {
     Route::get('/forma', [App\Http\Controllers\FormaController::class, 'index'])->name('forma');
     Route::put('/formpost', [App\Http\Controllers\FormaController::class, 'store'])->name('formpost');
     Route::get('/forma-all', [App\Http\Controllers\FormaController::class, 'showAll'])->name('forma-all');
-    Route::get('/form-edit/{id}', [App\Http\Controllers\FormaController::class, 'formEdit'])->name('form-edit.{id}');
-    Route::put('/form-edit-post/{id}', [App\Http\Controllers\FormaController::class, 'formEditPost'])->name('form-edit-post.{id}');
-    Route::get('/form-delete/{id}', [App\Http\Controllers\FormaController::class, 'formDelete'])->name('form-delete.{id}');
-    Route::get('/download-guarantee/{id}', [App\Http\Controllers\FormaController::class, 'guaranteeDownload'])->name('download-guarantee.{id}');
-    Route::get('/leave-comment/{id}', [App\Http\Controllers\FormaController::class, 'leaveComment'])->name('leave-comment.{id}');
-    Route::put('/leave-comment-post/{id}', [App\Http\Controllers\FormaController::class, 'leaveCommentPost'])->name('leave-comment-post.{id}');
-    Route::put('/form-show-datatables', [App\Http\Controllers\FormaController::class, 'showDatatable'])->name('form-show-datatables');
+    Route::get('/form-edit/{id}', [App\Http\Controllers\FormaController::class, 'formEdit'])->name('form-edit')->whereNumber('id');
+    Route::put('/form-edit-post/{id}', [App\Http\Controllers\FormaController::class, 'formEditPost'])->name('form-edit-post')->whereNumber('id');
+    Route::get('/form-delete/{id}', [App\Http\Controllers\FormaController::class, 'formDelete'])->name('form-delete')->whereNumber('id');
+    Route::get('/download-guarantee/{id}', [App\Http\Controllers\FormaController::class, 'guaranteeDownload'])->name('download-guarantee')->whereNumber('id');
+    Route::get('/leave-comment/{id}', [App\Http\Controllers\FormaController::class, 'leaveComment'])->name('leave-comment')->whereNumber('id');
+    Route::put('/leave-comment-post/{id}', [App\Http\Controllers\FormaController::class, 'leaveCommentPost'])->name('leave-comment-post')->whereNumber('id');
+    Route::post('/form-show-datatables', [App\Http\Controllers\FormaController::class, 'showDatatable'])->name('form-show-datatables');
 });
 
 
@@ -47,7 +47,7 @@ Route::get('/send-email', [App\Http\Controllers\ContactsController::class, 'send
 
 //Form Admin Routes
 Route::middleware(['adminCheck'])->group(function () {
-    Route::get('/show-comments', [App\Http\Controllers\FormaController::class, 'showComments'])->name('show-comments');
+    Route::get('/admin-forum', [App\Http\Controllers\ForumController::class, 'forumAdmin'])->name('admin-forum');
 
 });
 //Form Admin Routes End
@@ -60,4 +60,15 @@ Route::put('/profile-post', [App\Http\Controllers\ProfileController::class, 'pro
 
 //Forum Route
 Route::get('/forum', [App\Http\Controllers\ForumController::class, 'index'])->name('forum');
+Route::get('/forum-post-add-view', [App\Http\Controllers\ForumController::class, 'forumPostAddView'])->name('forum-post-add-view');
+Route::put('/forum-post', [App\Http\Controllers\ForumController::class, 'forumPost'])->name('forum-post');
+Route::get('/forum-post-open/{id}', [App\Http\Controllers\ForumController::class, 'viewForumPosts'])->name('forum-post-open')->whereNumber('id');
+Route::put('/leave-forum-post-comment/{id}', [App\Http\Controllers\ForumController::class, 'leaveForumPostComment'])->name('leave-forum-post-comment')->whereNumber('id');
+Route::get('/forum/lessons', [App\Http\Controllers\ForumController::class, 'lessons'])->name('forum.lessons');
+Route::get('/forum/questions', [App\Http\Controllers\ForumController::class, 'questions'])->name('forum.questions');
+Route::get('/forum/specialist', [App\Http\Controllers\ForumController::class, 'specialistQuestions'])->name('forum.specialist');
+Route::get('/forum/duk', [App\Http\Controllers\ForumController::class, 'duk'])->name('forum.duk');
+Route::get('/forum/reviews', [App\Http\Controllers\ForumController::class, 'reviews'])->name('forum.reviews');
+Route::get('/forum-post-accept/{id}', [App\Http\Controllers\ForumController::class, 'acceptForumPost'])->name('forum-post-accept')->whereNumber('id');
+Route::get('/forum-post-deny/{id}', [App\Http\Controllers\ForumController::class, 'denyForumPost'])->name('forum-post-deny')->whereNumber('id');
 //Forum Route End

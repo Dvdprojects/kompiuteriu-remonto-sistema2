@@ -8,23 +8,21 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Auth;
 
-class CustomerEmail extends Mailable
+class StateMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $name, $mobile, $subject, $text, $account;
+    public $name, $number, $busena;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name, $mobile, $subject, $text, $account)
+    public function __construct($name, $number, $busena)
     {
         $this->name = $name;
-        $this->mobile = $mobile;
-        $this->subject = $subject;
-        $this->text = $text;
-        $this->account = $account;
+        $this->number = $number;
+        $this->busena = $busena;
     }
 
     /**
@@ -35,6 +33,6 @@ class CustomerEmail extends Mailable
     public function build()
     {
         return $this->from(Auth::user()->email)
-            ->view('emails.customerEmail');
+            ->view('emails.stateEmail');
     }
 }

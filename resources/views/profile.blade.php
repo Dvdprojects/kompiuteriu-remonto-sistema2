@@ -35,14 +35,14 @@
                                 <div class="col">
                                     <!-- Vardas input -->
                                     <div class="form-outline">
-                                        <input type="text" id="name" name="name" class="form-control" value="{{$vartotojas->name}}" required/>
+                                        <input type="text" id="name" name="name" class="form-control" value="{{Auth::user()->name}}" required/>
                                         <label class="form-label" for="form6Example1">Vardas</label>
                                     </div>
                                 </div>
                                 <!-- Pavarde input -->
                                 <div class="col">
                                     <div class="form-outline">
-                                        <input type="text" id="surname" name="surname" class="form-control"@if ($vartotojas->profile_verified == 1) value="{{$vartotojas->surname}}"@endif required/>
+                                        <input type="text" id="surname" name="surname" class="form-control"@if (Auth::user()->profile_verified == 1) value="{{Auth::user()->surname}}"@endif required/>
                                         <label class="form-label" for="form6Example2">Pavardė</label>
                                     </div>
                                 </div>
@@ -51,18 +51,18 @@
                             <!-- Email input -->
                             <div class="form-outline mb-4">
                                 <input type="text" id="email" name="email"  class="form-control" disabled/>
-                                <label class="form-label" for="form6Example3">{{$vartotojas->email}}</label>
+                                <label class="form-label" for="form6Example3">{{Auth::user()->email}}</label>
                             </div>
 
                             <!-- Tel. Nr input -->
                             <div class="form-outline mb-4">
-                                <input type="text" id="phoneNumber" name="phoneNumber"  class="form-control" @if ($vartotojas->profile_verified == 1) value="{{$vartotojas->phone_number}}"@endif required />
+                                <input type="text" id="phoneNumber" name="phoneNumber"  class="form-control" @if (Auth::user()->profile_verified == 1) value="{{Auth::user()->phone_number}}"@endif required />
                                 <label class="form-label" for="form6Example4">Telefono numeris</label>
                             </div>
 
                             <!-- Miestas input -->
                             <div class="form-outline mb-4">
-                                <input type="text" id="city" name="city"  class="form-control" @if ($vartotojas->profile_verified == 1) value="{{$vartotojas->city}}"@endif required/>
+                                <input type="text" id="city" name="city"  class="form-control" @if (Auth::user()->profile_verified == 1) value="{{Auth::user()->city}}"@endif required/>
                                 <label class="form-label" for="form6Example7">Miestas</label>
                             </div>
                             <!-- Submit button -->

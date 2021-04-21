@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <div class="card">
+                <div class="card shadow-1-strong">
                     <div class="card-header">
                         <h5 class="text-center">'Kompiuterio remonto registracija</h5>
                         <br>
@@ -35,14 +35,14 @@
                                 <div class="col">
                                     <!-- Vardas input -->
                                     <div class="form-outline">
-                                        <input type="text" id="name" name="name" class="form-control" value="{{$vartotojas->name}}" disabled/>
+                                        <input type="text" id="name" name="name" class="form-control" value="{{Auth::user()->name}}" disabled/>
                                         <label class="form-label" for="form6Example1">Vardas</label>
                                     </div>
                                 </div>
                                 <!-- Pavarde input -->
                                 <div class="col">
                                     <div class="form-outline">
-                                        <input type="text" id="surname" name="surname" class="form-control" value="{{$vartotojas->surname}}" disabled/>
+                                        <input type="text" id="surname" name="surname" class="form-control" value="{{Auth::user()->surname}}" disabled/>
                                         <label class="form-label" for="form6Example2">Pavardė</label>
                                     </div>
                                 </div>
@@ -51,18 +51,18 @@
                             <!-- Email input -->
                             <div class="form-outline mb-4">
                                 <input type="text" id="email" name="email"  class="form-control"  disabled/>
-                                <label class="form-label" for="form6Example3">{{$vartotojas->email}}</label>
+                                <label class="form-label" for="form6Example3">{{Auth::user()->email}}</label>
                             </div>
 
                             <!-- Tel. Nr input -->
                             <div class="form-outline mb-4">
-                                <input type="text" id="phoneNumber" name="phoneNumber"  class="form-control" value="{{$vartotojas->phone_number}}" disabled />
+                                <input type="text" id="phoneNumber" name="phoneNumber"  class="form-control" value="{{Auth::user()->phone_number}}" disabled />
                                 <label class="form-label" for="form6Example4">Telefono numeris</label>
                             </div>
 
                             <!-- Miestas input -->
                             <div class="form-outline mb-4">
-                                <input type="text" id="city" name="city"  class="form-control" value="{{$vartotojas->city}}" disabled/>
+                                <input type="text" id="city" name="city"  class="form-control" value="{{Auth::user()->city}}" disabled/>
                                 <label class="form-label" for="form6Example7">Miestas</label>
                             </div>
                             <!-- Kompiuterio gamintojas input -->
@@ -106,6 +106,23 @@
                                 <input type="text" id="postalCode" name="postalCode"  value="{{$forms->postal_code}}" class="form-control" />
                                 <label class="form-label" for="form6Example6">Pašto kodas</label>
                             </div>
+                            @if(Auth::user()->role == 1)
+                            <hr>
+                            <h5 class="text-center">Administravimo sekcija</h5>
+                            <hr>
+                                <select class="form-select mb-4" id="busena" name="busena" aria-label="Default select example">
+                                    <option selected>Remonto būsenos pasirinkimas</option>
+                                    <option value="1">Pateikta</option>
+                                    <option value="2">Priimta</option>
+                                    <option value="3">Gauta</option>
+                                    <option value="4">Taisoma</option>
+                                    <option value="5">Atlikta</option>
+                                </select>
+                                <div class="form-outline mb-4">
+                                    <textarea class="form-control" id="mail" name="mail"  rows="4"  required></textarea>
+                                    <label class="form-label" for="form6Example7">Laiškas kleintui</label>
+                                </div>
+                            @endif
 
                             <!-- Submit button -->
                             <button type="submit" class="btn btn-primary btn-block mb-4">Pateikti</button>

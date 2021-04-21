@@ -21,11 +21,14 @@ class CreateFormForComputerFixes extends Migration
             $table->string('address')->nullable();
             $table->string('postal_code')->nullable();
             $table->integer('delivery');
-            $table->string('busena');
+            $table->enum('busena', ['atlikta', 'pateikta', 'priimta', 'gauta', 'taisoma']);
             $table->string('saskaitos_nr');
             $table->integer('comment_state')->default(0);
-            $table->integer('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
+        });
+        Schema::table('formas', function (Blueprint $table) {
+            $table->foreign('user_id', 'formas_to_user')->references('id')->on('users');
         });
     }
 
