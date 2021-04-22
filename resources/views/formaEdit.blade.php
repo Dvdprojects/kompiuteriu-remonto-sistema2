@@ -62,7 +62,7 @@
 
                             <!-- Miestas input -->
                             <div class="form-outline mb-4">
-                                <input type="text" id="city" name="city"  class="form-control" value="{{$forms->city}}" disabled/>
+                                <input type="text" id="city" name="city"  class="form-control" value="{{$forms->user->city}}" disabled/>
                                 <label class="form-label" for="form6Example7">Miestas</label>
                             </div>
                             <!-- Kompiuterio gamintojas input -->
@@ -96,13 +96,13 @@
                                 <label class="form-check-label" for="form6Example8"> Ar reikalingas kurjerio pristatymas? </label>
                             </div>
                             <!-- Adresas input -->
-                            <div class="form-outline mb-4" id="addressDiv" style="display: none">
+                            <div class="form-outline mb-4" id="addressDiv" @if($forms->delivery != 1)style="display: none"@endif>
                                 <input type="text" id="address" name="address"  value="{{$forms->address}}"class="form-control" />
                                 <label class="form-label" for="form6Example5">Adresas</label>
                             </div>
 
                             <!-- Pašto kodas input -->
-                            <div class="form-outline mb-4" id="postalCodeDiv" style="display: none">
+                            <div class="form-outline mb-4" id="postalCodeDiv" @if($forms->delivery != 1)style="display: none"@endif>
                                 <input type="text" id="postalCode" name="postalCode"  value="{{$forms->postal_code}}" class="form-control" />
                                 <label class="form-label" for="form6Example6">Pašto kodas</label>
                             </div>
