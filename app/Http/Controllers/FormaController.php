@@ -185,6 +185,7 @@ class FormaController extends Controller
             $name = $registerForm->user->name;
             $number = $registerForm->saskaitos_nr;
             Mail::to($registerForm->user->email)->send(new StateMail($name, $number, $state));
+            dd($registerForm->user->email);
             $registerForm->save();
             return redirect()->route('forma-all')->with('success', 'Kompiuterio remonto forma sekmingai paredaguota, el. laiškas išsiūstas klientui.');
         }

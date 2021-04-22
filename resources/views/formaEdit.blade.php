@@ -51,7 +51,7 @@
                             <!-- Email input -->
                             <div class="form-outline mb-4">
                                 <input type="text" id="email" name="email"  class="form-control"  disabled/>
-                                <label class="form-label" for="form6Example3">{{Auth::user()->email}}</label>
+                                <label class="form-label" for="form6Example3">{{$forms->user->email}}</label>
                             </div>
 
                             <!-- Tel. Nr input -->
