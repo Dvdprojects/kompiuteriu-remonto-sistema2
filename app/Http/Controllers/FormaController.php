@@ -91,7 +91,14 @@ class FormaController extends Controller
     }
     public function formEdit(Request $request, $id)
     {
-        $forms = Auth::user()->forms()->findOrFail($id);
+        if (Auth::user()->role == 1)
+        {
+            $forms = Forma::findOrFail($id);
+        }
+        else
+        {
+            $forms = Auth::user()->forms()->findOrFail($id);
+        }
         return view('formaEdit', compact('forms'));
     }
     public function formEditPost(Request $request, $id)
@@ -120,7 +127,15 @@ class FormaController extends Controller
             ]);
         }
 
-        $registerForm = Auth::user()->forms()->findOrFail($id);
+        if (Auth::user()->role == 1)
+        {
+            $registerForm = Forma::findOrFail($id);
+        }
+        else
+        {
+            $registerForm = Auth::user()->forms()->findOrFail($id);
+        }
+
         if($registerForm->busena != "pateikta" && Auth::user()->role != 1)
         {
             return redirect()->route('forma-all')->with('error', 'Forma nebegali būti keičiama.');
@@ -182,7 +197,14 @@ class FormaController extends Controller
     }
     public function formDelete(Request $request, $id)
     {
-        $forms = Auth::user()->forms()->findOrFail($id);
+        if (Auth::user()->role == 1)
+        {
+            $forms = Forma::findOrFail($id);
+        }
+        else
+        {
+            $forms = Auth::user()->forms()->findOrFail($id);
+        }
 
         if($forms->busena != "Pateikta" && Auth::user()->role != 1)
         {
