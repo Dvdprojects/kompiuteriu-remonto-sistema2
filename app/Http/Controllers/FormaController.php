@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use PDF;
 
 class FormaController extends Controller
 {
@@ -213,9 +214,25 @@ class FormaController extends Controller
         $forms->delete();
         return redirect()->route('forma-all')->with('success', 'Kompiuterio remonto forma sekmingai istrinta.');
     }
-    public function guaranteeDownload(Request $request)
+    public function guaranteeDownload(Request $request, $id)
     {
-        return $this->showAll();
+        $user = Auth::user();
+        $data = Auth::user()->forms;
+        if (count($data) > 0)
+        {
+            foreach($data as $d)
+            {
+                if ($d->id == $id)
+                {
+                    $guaranteeForm = $d;
+                    $pdf = PDF::loadView('guarantee.guaranteeDownload', compact('guaranteeForm'));
+                    return $pdf->download($user->name . ' ' . $user->surname . '.pdf');
+                }
+            }
+        }
+        else {
+            //TODO
+        }
     }
     public function leaveComment(Request $request, $id)
     {
@@ -233,7 +250,7 @@ class FormaController extends Controller
         $commentForm->rating = $request->rating;
         $commentForm->comment = $request->comment;
         $commentForm->user()->associate(Auth::user());
-        $commentForm->formComment()->associate($forms);
+        $commentForm->form()->associate($forms);
         $forms->comment_state = 1;
         $commentForm->save();
         $forms->save();
@@ -269,7 +286,7 @@ class FormaController extends Controller
                 }
                 $tableData[] = $single->busena;
                 $tableData[] = $single->saskaitos_nr;
-                $tableData[] = [$single->id, $single->busena == "Atlikta" && $single->comment_state != 1];
+                $tableData[] = [$single->id, $single->busena == "atlikta" && $single->comment_state != 1, $single->busena != "pateikta", $single->busena == "atlikta"];
                 $result['data'][] = $tableData;
             }
         }

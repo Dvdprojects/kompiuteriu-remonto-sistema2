@@ -56,30 +56,36 @@
                             if (data[1])
                             {
                                 dataRow += '<div class="row">';
-                                dataRow += '<div class="col-md-3">';
+                                dataRow += '<div class="col-md-6">';
                                 dataRow += '<a href="{{route('download-guarantee', '')}}/' + data[0] + '"> <i class="fas fa-file-alt"></i></a>';
                                 dataRow += '</div>';
-                                dataRow += '<div class="col-md-3">';
+                                dataRow += '<div class="col-md-6">';
                                 dataRow += '<a href="{{route('leave-comment', '')}}/' + data[0] + '"> <i class="fas fa-comment-alt"></i></a>';
                                 dataRow += '</div>';
-                                dataRow += '<div class="col-md-3">';
-                                dataRow += '<a href="{{route('form-edit', '')}}/' + data[0] + '"> <i class="fas fa-edit"></i></a>';
                                 dataRow += '</div>';
-                                dataRow += '<div class="col-md-3">';
-                                dataRow += '<a href="{{route('form-delete', '')}}/' + data[0] + '"> <i class="fas fa-trash-alt"></i></a>';
+                            }
+                            if (data[3])
+                            {
+                                dataRow += '<div class="row">';
+                                dataRow += '<div class="col-md-12">';
+                                dataRow += '<a href="{{route('download-guarantee', '')}}/' + data[0] + '"> <i class="fas fa-file-alt"></i></a>';
                                 dataRow += '</div>';
+                                dataRow += '</div>';
+                            }
+                            else if (data[2])
+                            {
+                                dataRow += '<div class="row">';
+                                dataRow += '<div class="col-md-12">';
+                                dataRow += 'Negalimi';
                                 dataRow += '</div>';
                             }
                             else
                             {
                                 dataRow += '<div class="row">';
-                                dataRow += '<div class="col-md-3">';
-                                dataRow += '<a href="{{route('download-guarantee', '')}}/' + data[0] + '"> <i class="fas fa-file-alt"></i></a>';
-                                dataRow += '</div>';
-                                dataRow += '<div class="col-md-3">';
+                                dataRow += '<div class="col-md-6">';
                                 dataRow += '<a href="{{route('form-edit', '')}}/' + data[0] + '"> <i class="fas fa-edit"></i></a>';
                                 dataRow += '</div>';
-                                dataRow += '<div class="col-md-3">';
+                                dataRow += '<div class="col-md-6">';
                                 dataRow += '<a href="{{route('form-delete', '')}}/' + data[0] + '"> <i class="fas fa-trash-alt"></i></a>';
                                 dataRow += '</div>';
                                 dataRow += '</div>';

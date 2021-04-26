@@ -132,29 +132,34 @@
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
     <script type="text/javascript">
-        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-        (function(){
-            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-            s1.async=true;
-            s1.src='https://embed.tawk.to/60637620067c2605c0bdcb1b/1f228arng';
-            s1.charset='UTF-8';
-            s1.setAttribute('crossorigin','*');
-            s0.parentNode.insertBefore(s1,s0);
-        })();
+        var d = new Date();
+        var h = d.getHours();
+        if(h > 8 && h < 18)
+        {
+            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+            (function(){
+                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                s1.async=true;
+                s1.src='https://embed.tawk.to/60637620067c2605c0bdcb1b/1f228arng';
+                s1.charset='UTF-8';
+                s1.setAttribute('crossorigin','*');
+                s0.parentNode.insertBefore(s1,s0);
+            })();
 
-        const exampleTriggerEl = document.querySelectorAll('[data-mdb-toggle="tooltip"]')
+            const exampleTriggerEl = document.querySelectorAll('[data-mdb-toggle="tooltip"]')
 
-        exampleTriggerEl.forEach((el) => {
-            const tooltip = mdb.Tooltip.getInstance(el);
+            exampleTriggerEl.forEach((el) => {
+                const tooltip = mdb.Tooltip.getInstance(el);
 
-            el.addEventListener('mouseleave', () => {
-                tooltip.hide();
+                el.addEventListener('mouseleave', () => {
+                    tooltip.hide();
+                })
+
+                el.addEventListener('mouseover', () => {
+                    tooltip.show();
+                })
             })
-
-            el.addEventListener('mouseover', () => {
-                tooltip.show();
-            })
-        })
+        }
     </script>
     @yield('scripts')
 </body>
