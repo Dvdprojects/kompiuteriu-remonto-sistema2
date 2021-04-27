@@ -162,23 +162,23 @@ class FormaController extends Controller
             switch ($request->busena)
             {
                 case 1:
-                    $registerForm->busena = 'Pateikta';
+                    $registerForm->busena = 'pateikta';
                     $state = 'Pateikta';
                 break;
                 case 2:
-                    $registerForm->busena = 'Priimta';
+                    $registerForm->busena = 'priimta';
                     $state = 'Priimta';
                     break;
                 case 3:
-                    $registerForm->busena = 'Gauta';
+                    $registerForm->busena = 'gauta';
                     $state = 'Gauta';
                     break;
                 case 4:
-                    $registerForm->busena = 'Taisoma';
+                    $registerForm->busena = 'taisoma';
                     $state = 'Taisoma';
                     break;
                 case 5:
-                    $registerForm->busena = 'Atlikta';
+                    $registerForm->busena = 'atlikta';
                     $state = 'Atlikta';
                     break;
             }
