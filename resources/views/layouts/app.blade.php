@@ -72,6 +72,11 @@
                         <li class="nav-item active">
                             <a class="nav-link active" aria-current="page" href="{{Auth::user()->role == 1 ? route('admin-forum') : route('forum') }}">Forumas</a>
                         </li>
+                        @if(Auth::user()->role == 1)
+                            <li class="nav-item active">
+                                <a class="nav-link active" aria-current="page" href="{{route('admin-users-list')}}">Vartotoju valdymas</a>
+                            </li>
+                            @endif
                     </ul>
                 @endauth
                 <ul class="navbar-nav ms-auto">

@@ -48,6 +48,11 @@ Route::get('/send-email', [App\Http\Controllers\ContactsController::class, 'send
 //Form Admin Routes
 Route::middleware(['adminCheck'])->group(function () {
     Route::get('/admin-forum', [App\Http\Controllers\ForumController::class, 'forumAdmin'])->name('admin-forum');
+    Route::get('/admin-users-list', [App\Http\Controllers\UsersController::class, 'usersListShow'])->name('admin-users-list');
+    Route::post('/admin-users-list-datatable', [App\Http\Controllers\UsersController::class, 'usersListDatatable'])->name('admin-users-list-datatable');
+    Route::post('/admin-user-edit/{id}', [App\Http\Controllers\UsersController::class, 'userEdit'])->name('admin-user-edit')->whereNumber('id');
+    Route::get('/admin-user-edit-show/{id}', [App\Http\Controllers\UsersController::class, 'userEditShow'])->name('admin-user-edit-show')->whereNumber('id');
+    Route::delete('/admin-user-delete/{id}', [App\Http\Controllers\UsersController::class, 'userDelete'])->name('admin-user-delete')->whereNumber('id');
 
 });
 //Form Admin Routes End
