@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Auth;
@@ -31,16 +32,10 @@ class WelcomeController extends Controller
     }
     public function check(Request $request)
     {
-
-        $stateCheck = DB::table('formas')
-            ->select('busena')
-            ->where('saskaitos_nr', $request->saskNr)
-            ->get()->first();
-
-        if (!empty($stateCheck))
+        $stateCheck = Order::select('busena')->where('saskaitos_nr', $request->saskNr)->get();
+        if ($stateCheck != null)
         {
-            $result = [];
-            $result['busena'] = $stateCheck;
+            $result[] = $stateCheck;
             return response()->json($result);
         }
         else

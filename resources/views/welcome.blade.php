@@ -147,12 +147,10 @@
 @section('scripts')
 <script>
     $(document).ready(function(){
-        console.log("data");
         var responseDiv = document.getElementById('checkRepairStateResponse');
         $('#checkRepairState').on('submit', function (event) {
             event.preventDefault();
             var data = $('#saskNr').val();
-            console.log(data);
             $.ajax({
                 type: "GET",
                 url: "{{route('check')}}",
@@ -160,8 +158,8 @@
                     saskNr: jQuery('#saskNr').val(),
                 },
                 success: function (response) {
-                    responseDiv.innerText = "Jūsų remonto būsena: '" + response.busena.busena + "'";
-                    console.log(response.busena.busena);
+                    responseDiv.innerText = "Jūsų remonto būsena: '" + response + "'";
+                    console.log(response);
                     },
                 error: function(xhr, status, error){
                     console.log(error);
