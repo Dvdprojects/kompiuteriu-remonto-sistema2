@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\CustomerEmail;
 use App\Mail\StateMail;
-use App\Models\Forma;
-use App\Models\Forum;
+use App\Models\Order;
+use App\Models\User;
 use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Http\Request;
 use Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use PDF;
 
-class FormaController extends Controller
+class OrderController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -34,12 +32,17 @@ class FormaController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->role == 1)
+        {
+            $users = Auth::user()->all();
+            return view('forma', compact('users'));
+        }
         return view('forma');
     }
     public function store(Request $request)
     {
         $config = [
-            'table' => 'formas',
+            'table' => 'orders',
             'field' => 'saskaitos_nr',
             'length' => '10',
             'prefix' => '999'
@@ -55,50 +58,52 @@ class FormaController extends Controller
             'postalCode' => 'max:32',
         ]);
 
-        $registerForm = new \App\Models\Forma;
-        $registerForm->computer_brand = $request->computerBrand;
-        $registerForm->computer_model = $request->computerModel;
-        $registerForm->comment = $request->comment;
+        $order = new \App\Models\Order;
+        $computer = new \App\Models\Computer();
+        $computer->computer_brand = $request->computerBrand;
+        $computer->computer_model = $request->computerModel;
+        $order->short_comment = $request->comment;
         if ($request->delivery == 1)
         {
-            $registerForm->address = $request->address;
-            $registerForm->postal_code = $request->postalCode;
-            $registerForm->delivery = $request->delivery;
+            $order->address = $request->address;
+            $order->postal_code = $request->postalCode;
+            $order->delivery = $request->delivery;
         }
         else
         {
-            $registerForm->delivery = 0;
-            $registerForm->postal_code = "Nenurodyta";
-            $registerForm->address = "Nenurodyta";
+            $order->delivery = 0;
+            $order->postal_code = "Nenurodyta";
+            $order->address = "Nenurodyta";
         }
-        $registerForm->user()->associate(Auth::user());
-        $registerForm->busena = "Pateikta";
-        $registerForm->saskaitos_nr = $idForSas;
-        $registerForm->save();
+        if (Auth::user()->role == 1)
+        {
+            $order->user()->associate(User::find($request->userId));
+        }
+        else
+        {
+            $order->user()->associate(Auth::user());
+        }
+        $order->busena = "Pateikta";
+        $order->saskaitos_nr = $idForSas;
+        $order->save();
+        $computer->order()->associate($order);
+        $computer->save();
         return redirect()->route('forma')->with('success', 'Kompiuterio remonto forma pateikta patvirtinimui, apie remonto busena jus informuosime el. pastu.');
 
     }
     public function showAll()
     {
-        if (Auth::user()->role == 1)
-        {
-            $formaAll = Forma::all();
-        }
-        else
-        {
-            $formaAll = Auth::user()->forms;
-        }
-        return view('formashow', compact('formaAll'));
+        return view('formashow');
     }
     public function formEdit(Request $request, $id)
     {
         if (Auth::user()->role == 1)
         {
-            $forms = Forma::findOrFail($id);
+            $forms = Order::findOrFail($id);
         }
         else
         {
-            $forms = Auth::user()->forms()->findOrFail($id);
+            $forms = Auth::user()->order()->findOrFail($id);
         }
         return view('formaEdit', compact('forms'));
     }
@@ -114,6 +119,8 @@ class FormaController extends Controller
                 'address' => 'required_if:delivery,==,1 | max:128',
                 'postalCode' => 'required_if:delivery,==,1 | max:32',
                 'busena' => 'required|max:32',
+                'mailCheckbox' => 'min:0|max:1',
+                'mailBox' => 'required_if:mailCheckbox,==,1 | max:255',
             ]);
         }
         else
@@ -130,11 +137,11 @@ class FormaController extends Controller
 
         if (Auth::user()->role == 1)
         {
-            $registerForm = Forma::findOrFail($id);
+            $registerForm = Order::findOrFail($id);
         }
         else
         {
-            $registerForm = Auth::user()->forms()->findOrFail($id);
+            $registerForm = Auth::user()->order()->findOrFail($id);
         }
 
         if($registerForm->busena != "pateikta" && Auth::user()->role != 1)
@@ -142,9 +149,9 @@ class FormaController extends Controller
             return redirect()->route('forma-all')->with('error', 'Forma nebegali būti keičiama.');
         }
 
-        $registerForm->computer_brand = $request->computerBrand;
-        $registerForm->computer_model = $request->computerModel;
-        $registerForm->comment = $request->comment;
+        $registerForm->computer->computer_brand = $request->computerBrand;
+        $registerForm->computer->computer_model = $request->computerModel;
+        $registerForm->short_comment = $request->comment;
         if ($request->delivery == 1)
         {
             $registerForm->address = $request->address;
@@ -164,7 +171,7 @@ class FormaController extends Controller
                 case 1:
                     $registerForm->busena = 'pateikta';
                     $state = 'Pateikta';
-                break;
+                    break;
                 case 2:
                     $registerForm->busena = 'priimta';
                     $state = 'Priimta';
@@ -184,7 +191,11 @@ class FormaController extends Controller
             }
             $name = $registerForm->user->name;
             $number = $registerForm->saskaitos_nr;
-            Mail::to($registerForm->user->email)->send(new StateMail($name, $number, $state));
+            $mailBox = strval($request->mailBox);
+            if ($request->mailCheckbox == 1)
+            {
+                Mail::to($registerForm->user->email)->send(new StateMail($name, $number, $state, $mailBox));
+            }
             $registerForm->save();
             return redirect()->route('forma-all')->with('success', 'Kompiuterio remonto forma sekmingai paredaguota, el. laiškas išsiūstas klientui.');
         }
@@ -199,58 +210,45 @@ class FormaController extends Controller
     {
         if (Auth::user()->role == 1)
         {
-            $forms = Forma::findOrFail($id);
+            $orders = Order::findOrFail($id);
         }
         else
         {
-            $forms = Auth::user()->forms()->findOrFail($id);
+            $orders = Auth::user()->order()->findOrFail($id);
         }
 
-        if($forms->busena != "Pateikta" && Auth::user()->role != 1)
+        if($orders->busena != "pateikta" && Auth::user()->role != 1)
         {
             return redirect()->route('forma-all')->with('error', 'Pateikta forma nebegali būti ištrinta.');
         }
 
-        $forms->delete();
+        $orders->delete();
         return redirect()->route('forma-all')->with('success', 'Kompiuterio remonto forma sekmingai istrinta.');
     }
     public function guaranteeDownload(Request $request, $id)
     {
         $user = Auth::user();
-        $data = Auth::user()->forms;
-        if (count($data) > 0)
-        {
-            foreach($data as $d)
-            {
-                if ($d->id == $id)
-                {
-                    $guaranteeForm = $d;
-                    $pdf = PDF::loadView('guarantee.guaranteeDownload', compact('guaranteeForm'));
-                    return $pdf->download($user->name . ' ' . $user->surname . '.pdf');
-                }
-            }
-        }
-        else {
-            //TODO
-        }
+        $guaranteeForm = Order::findOrFail($id);
+        $pdf = PDF::loadView('guarantee.guaranteeDownload', compact('guaranteeForm'));
+        return $pdf->download($user->name . ' ' . $user->surname . '.pdf');
     }
     public function leaveComment(Request $request, $id)
     {
-        $forms = Auth::user()->forms()->findOrFail($id);
+        $forms = Auth::user()->order()->findOrFail($id);
         return view('commentsForm', compact('forms'));
     }
     public function leaveCommentPost(Request $request, $id)
     {
         $this->validate($request, [
-                'comment' => 'required | max:255',
-                'rating' => 'numeric | min: 1 | max: 5',
-            ]);
-        $forms = Auth::user()->forms()->findOrFail($id);
+            'comment' => 'required | max:255',
+            'rating' => 'numeric | min: 1 | max: 5',
+        ]);
+        $forms = Auth::user()->order()->findOrFail($id);
         $commentForm = new \App\Models\Comment;
         $commentForm->rating = $request->rating;
         $commentForm->comment = $request->comment;
         $commentForm->user()->associate(Auth::user());
-        $commentForm->form()->associate($forms);
+        $commentForm->order()->associate($forms);
         $forms->comment_state = 1;
         $commentForm->save();
         $forms->save();
@@ -262,20 +260,20 @@ class FormaController extends Controller
         $result['data'] = [];
         if (Auth::user()->role == 1)
         {
-            $allDataUser = Forma::all();
+            $allDataUser = Order::all();
         }
         else
         {
-            $allDataUser = Auth::user()->forms;
+            $allDataUser = auth()->user()->order;
         }
         if (count($allDataUser) > 0)
         {
             foreach ($allDataUser as $single)
             {
                 $tableData = [];
-                $tableData[] = $single->computer_brand;
-                $tableData[] = $single->computer_model;
-                $tableData[] = $single->comment;
+                $tableData[] = $single->computer->computer_brand;
+                $tableData[] = $single->computer->computer_model;
+                $tableData[] = $single->short_comment;
                 if ($single->delivery == 0)
                 {
                     $tableData[] = 'Pristatysite patys';
@@ -286,7 +284,7 @@ class FormaController extends Controller
                 }
                 $tableData[] = $single->busena;
                 $tableData[] = $single->saskaitos_nr;
-                $tableData[] = [$single->id, $single->busena == "atlikta" && $single->comment_state != 1, $single->busena != "pateikta", $single->busena == "atlikta"];
+                $tableData[] = [$single->id, $single->busena != "pateikta", $single->busena == "atlikta", Auth::user()->role == 1];
                 $result['data'][] = $tableData;
             }
         }
