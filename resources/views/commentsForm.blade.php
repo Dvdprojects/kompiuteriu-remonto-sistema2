@@ -35,14 +35,14 @@
                                 <div class="col">
                                     <!-- Vardas input -->
                                     <div class="form-outline">
-                                        <input type="text" id="name" name="name" class="form-control" value="{{Auth::user()->name}}" disabled/>
+                                        <input type="text" id="name" name="name" class="form-control" value="{{$forms->user->name}}" disabled/>
                                         <label class="form-label" for="form6Example1">Vardas</label>
                                     </div>
                                 </div>
                                 <!-- Pavarde input -->
                                 <div class="col">
                                     <div class="form-outline">
-                                        <input type="text" id="surname" name="surname" class="form-control" value="{{Auth::user()->surname}}" disabled/>
+                                        <input type="text" id="surname" name="surname" class="form-control" value="{{$forms->user->surname}}" disabled/>
                                         <label class="form-label" for="form6Example2">Pavardė</label>
                                     </div>
                                 </div>
@@ -51,14 +51,14 @@
                                 <div class="col">
                                     <!-- Vardas input -->
                                     <div class="form-outline">
-                                        <input type="text" id="computerBrand" name="computerBrand" class="form-control" value="{{$forms->computer_brand}}" disabled/>
+                                        <input type="text" id="computerBrand" name="computerBrand" class="form-control" value="{{$forms->computer->computer_brand}}" disabled/>
                                         <label class="form-label" for="form6Example1">Kompiuterio gamintojas</label>
                                     </div>
                                 </div>
                                 <!-- Pavarde input -->
                                 <div class="col">
                                     <div class="form-outline">
-                                        <input type="text" id="computerModel" name="computerModel" class="form-control" value="{{$forms->computer_model}}" disabled/>
+                                        <input type="text" id="computerModel" name="computerModel" class="form-control" value="{{$forms->computer->computer_model}}" disabled/>
                                         <label class="form-label" for="form6Example2">Kompiuterio Modelis</label>
                                     </div>
                                 </div>

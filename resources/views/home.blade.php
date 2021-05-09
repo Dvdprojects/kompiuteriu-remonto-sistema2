@@ -27,26 +27,6 @@
                     <div class="card-body text-left">
                         <h5 class="text-center">Nauji forumo pranešimai</h5>
                         <hr>
-                        @if($lessons < 1)
-                            <p class="card-text">Naujų pamokų: <strong class="text-success">{{$lessons}}</strong></p>
-                        @else
-                            <p class="card-text">Naujų pamokų: <strong class="text-danger">{{$lessons}}</strong></p>
-                        @endif
-                        @if($questions < 1)
-                            <p class="card-text">Naujų klausimų: <strong class="text-success">{{$questions}}</strong></p>
-                        @else
-                            <p class="card-text">Naujų klausimų: <strong class="text-danger">{{$questions}}</strong></p>
-                        @endif
-                        @if($specialistQuestions < 1)
-                            <p class="card-text">Naujų klausimų specialistams: <strong class="text-success">{{$specialistQuestions}}</strong></p>
-                        @else
-                            <p class="card-text">Naujų klausimų specialistams: <strong class="text-danger">{{$specialistQuestions}}</strong></p>
-                        @endif
-                        @if($duk < 1)
-                            <p class="card-text">Naujų "DUK" skelbimų: <strong class="text-success">{{$duk}}</strong></p>
-                        @else
-                            <p class="card-text">Naujų "DUK" skelbimų: <strong class="text-danger">{{$duk}}</strong></p>
-                        @endif
                         @if($comments < 1)
                             <p class="card-text">Naujų komentarų: <strong class="text-success">{{$comments}}</strong></p>
                         @else

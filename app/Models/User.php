@@ -51,6 +51,8 @@ use Illuminate\Notifications\Notifiable;
  * @property-read int|null $forum_posts_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ForumComments[] $forumPostsComments
  * @property-read int|null $forum_posts_comments_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Comment[] $order
+ * @property-read int|null $order_count
  */
 class User extends Authenticatable
 {
@@ -85,16 +87,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-    public function comments(){
-        return $this->hasMany(Comment::class);
-    }
-    public function forms(){
-        return $this->hasMany(Forma::class);
-    }
-    public function forumPosts(){
-        return $this->hasMany(Forum::class);
-    }
-    public function forumPostsComments(){
-        return $this->hasMany(ForumComments::class , 'user_id', 'id');
+    public function order(){
+        return $this->hasMany(Order::class);
     }
 }

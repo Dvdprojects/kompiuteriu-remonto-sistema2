@@ -28,7 +28,7 @@
                                 <p>{{Session::get('error')}}</p>
                             </div>
                         @endif
-                        <form id="pcRegistrationForm" action="{{url('admin-user-edit-show')}}" method="post">
+                        <form id="pcRegistrationForm" action="{{route('admin-user-edit', $userInfo->id)}}" method="post">
                             {{ method_field('PUT') }}
                             {{ csrf_field() }}
                             <div class="row mb-4">

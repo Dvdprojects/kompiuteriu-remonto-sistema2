@@ -32,6 +32,9 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read \App\Models\User $user
  * @property-read \App\Models\Forma $form
+ * @property int $order_id
+ * @method static \Illuminate\Database\Eloquent\Builder|Comment whereOrderId($value)
+ * @property-read \App\Models\Order $order
  */
 class Comment extends Model
 {
@@ -42,7 +45,7 @@ class Comment extends Model
     public function user(){
         return $this->belongsTo('App\Models\User', 'user_id','id');
     }
-    public function form(){
-        return $this->belongsTo('App\Models\Forma', 'form_id','id');
+    public function order(){
+        return $this->belongsTo('App\Models\Order');
     }
 }

@@ -85,13 +85,44 @@ class UsersController extends Controller
             'city' => 'required | max:32',
         ]);
 
-        $profileForm = Auth::user();
+        $profileForm = User::findOrFail($id);
         $profileForm->name = $request->name;
         $profileForm->surname = $request->surname;
         $profileForm->phone_number = $request->phoneNumber;
         $profileForm->city = $request->city;
         $profileForm->profile_verified = 1;
         $profileForm->save();
-        return redirect()->route('profile')->with('success', 'Profilis sėkmingai užpildytas');
+        return redirect()->route('admin-users-list')->with('success', 'Profilis sėkmingai užpildytas');
+    }
+    public function userDelete(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+        return redirect()->route('admin-users-list')->with('success', 'Vartotojas sekmingai istrintas');
+    }
+    public function userAddShow()
+    {
+        return view('userAdd');
+    }
+    public function userAdd(Request $request)
+    {
+        $this->validate($request,[
+            'name' => 'required|max:32',
+            'surname' => 'required|max:32',
+            'phoneNumber' => 'required',
+            'city' => 'required|max:32',
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:6',
+        ]);
+        $user = new \App\Models\User;
+        $user->name = $request->name;
+        $user->surname = $request->surname;
+        $user->phone_number = $request->phoneNumber;
+        $user->city = $request->city;
+        $user->password = Hash::make($request->password);
+        $user->email = $request->email;
+        $user->profile_verified = 1;
+        $user->save();
+        return view('userList')->with('Vartotojas sėkmingai pridėtas');
     }
 }

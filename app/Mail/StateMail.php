@@ -11,18 +11,19 @@ use Illuminate\Support\Facades\Auth;
 class StateMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $name, $number, $busena;
+    public $name, $number, $busena, $mailBox;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($name, $number, $busena)
+    public function __construct($name, $number, $busena, $mailBox)
     {
         $this->name = $name;
         $this->number = $number;
         $this->busena = $busena;
+        $this->mailBox = $mailBox;
     }
 
     /**

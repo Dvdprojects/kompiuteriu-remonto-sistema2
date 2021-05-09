@@ -17,6 +17,7 @@
     <!-- Font Awesome -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.css">
+    <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.4/css/bootstrap-select.min.css" />
 
     <!-- Google Fonts -->
     <link
@@ -24,6 +25,7 @@
         rel="stylesheet"
     />
     <!-- Google Fonts -->
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.bootstrap3.css" />
 
     <!-- MDB -->
     <link
@@ -61,22 +63,24 @@
 
                         </li>
                         <li class="nav-item active">
-                            <a class="nav-link active" aria-current="page" href="{{route('forma')}}">Remonto registracija</a>
+                            <a class="nav-link active" aria-current="page" href="{{route('forma')}}">Remonto
+                                registracija</a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link active" aria-current="page" href="{{route('forma-all')}}">Istorija</a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link active" aria-current="page" href="{{route('contacts')}}">Kontaktai</a>
-                        </li>
-                        <li class="nav-item active">
-                            <a class="nav-link active" aria-current="page" href="{{Auth::user()->role == 1 ? route('admin-forum') : route('forum') }}">Forumas</a>
-                        </li>
+                        @if(Auth::user()->role != 1)
+                            <li class="nav-item active">
+                                <a class="nav-link active" aria-current="page"
+                                   href="{{route('contacts')}}">Kontaktai</a>
+                            </li>
+                        @endif
                         @if(Auth::user()->role == 1)
                             <li class="nav-item active">
-                                <a class="nav-link active" aria-current="page" href="{{route('admin-users-list')}}">Vartotoju valdymas</a>
+                                <a class="nav-link active" aria-current="page" href="{{route('admin-users-list')}}">Vartotoju
+                                    valdymas</a>
                             </li>
-                            @endif
+                        @endif
                     </ul>
                 @endauth
                 <ul class="navbar-nav ms-auto">
@@ -107,8 +111,12 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="{{route('profile')}}">Profilis</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+                                <li>
+                                    <hr class="dropdown-divider"/>
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                                </li>
                             </ul>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                 {{ csrf_field() }}
@@ -127,45 +135,50 @@
     </div>
 </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js" integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js" integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc" crossorigin="anonymous"></script>
-    <!-- MDB -->
-    <script
-        type="text/javascript"
-        src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"
-    ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
-    <script type="text/javascript">
-        var d = new Date();
-        var h = d.getHours();
-        if(h > 8 && h < 18)
-        {
-            var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-            (function(){
-                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-                s1.async=true;
-                s1.src='https://embed.tawk.to/60637620067c2605c0bdcb1b/1f228arng';
-                s1.charset='UTF-8';
-                s1.setAttribute('crossorigin','*');
-                s0.parentNode.insertBefore(s1,s0);
-            })();
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"
+        integrity="sha384-SR1sx49pcuLnqZUnnPwx6FCym0wLsk5JZuNx2bPPENzswTNFaQU1RDvt3wT4gWFG"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js"
+        integrity="sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc"
+        crossorigin="anonymous"></script>
+<!-- MDB -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.js"></script>
+<script
+    type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.3.0/mdb.min.js"
+></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+<script type="text/javascript">
+    var d = new Date();
+    var h = d.getHours();
+    if (h > 8 && h < 18) {
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/60637620067c2605c0bdcb1b/1f228arng';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
 
-            const exampleTriggerEl = document.querySelectorAll('[data-mdb-toggle="tooltip"]')
+        const exampleTriggerEl = document.querySelectorAll('[data-mdb-toggle="tooltip"]')
 
-            exampleTriggerEl.forEach((el) => {
-                const tooltip = mdb.Tooltip.getInstance(el);
+        exampleTriggerEl.forEach((el) => {
+            const tooltip = mdb.Tooltip.getInstance(el);
 
-                el.addEventListener('mouseleave', () => {
-                    tooltip.hide();
-                })
-
-                el.addEventListener('mouseover', () => {
-                    tooltip.show();
-                })
+            el.addEventListener('mouseleave', () => {
+                tooltip.hide();
             })
-        }
-    </script>
-    @yield('scripts')
+
+            el.addEventListener('mouseover', () => {
+                tooltip.show();
+            })
+        })
+    }
+</script>
+@yield('scripts')
 </body>
 </html>

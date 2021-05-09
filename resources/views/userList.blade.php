@@ -23,11 +23,16 @@
                     <p>{{Session::get('error')}}</p>
                 </div>
             @endif
-            <table id="formDataTable" class="table text-center">
-                @include('Tables.UserListTableTop')
-                <tbody>
-                </tbody>
-            </table>
+            <div class="text-right">
+                <a class="btn btn-primary" href="{{route('admin-user-add-show')}}">Pridėti vartotoją</a>
+            </div>
+            <div class="mt-3">
+                <table id="formDataTable" class="table text-center">
+                    @include('Tables.UserListTableTop')
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -52,14 +57,15 @@
                         targets: 6,
                         orderable: false,
                         render: function (data, type, row){
+                            console.log(data[0])
                             var dataRow = '';
                             dataRow += '<div class="row">';
                             dataRow += '<div class="col-md-6">';
-                            dataRow += '<a href="{{route('admin-user-edit-show', '')}}/' + data[0] + '"> <i class="fas fa-highlighter"></i></a>';
+                            dataRow += '<a href="{{route('admin-user-edit-show', '')}}/' + data + '"> <i class="fas fa-highlighter"></i></a>';
                             console.log(data[0]);
                             dataRow += '</div>';
                             dataRow += '<div class="col-md-6">';
-                            dataRow += '<a href="{{route('admin-user-delete', '')}}/' + data[0] + '"> <i class="fas fa-trash-alt"></i></a>';
+                            dataRow += '<a href="{{route('admin-user-delete', '')}}/' + data + '"> <i class="fas fa-trash-alt"></i></a>';
                             dataRow += '</div>';
                             dataRow += '</div>';
                             return dataRow;

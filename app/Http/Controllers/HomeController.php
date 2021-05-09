@@ -25,11 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $lessons = count(Forum::query()->groups(1)->public(0)->get());
-        $questions = count(Forum::query()->groups(2)->public(0)->get());
-        $specialistQuestions = count(Forum::query()->groups(3)->public(0)->get());
-        $duk = count(Forum::query()->groups(4)->public(0)->get());
         $comments = count(Comment::all()->where('comment_verified', '==', 0));
-        return view('home', compact('lessons', 'questions', 'specialistQuestions', 'duk', 'comments'));
+        return view('home', compact('comments'));
     }
 }

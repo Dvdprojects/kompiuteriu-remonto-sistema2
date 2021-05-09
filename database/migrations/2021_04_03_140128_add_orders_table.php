@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFormForComputerFixes extends Migration
+class AddOrdersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,22 +13,20 @@ class CreateFormForComputerFixes extends Migration
      */
     public function up()
     {
-        Schema::create('formas', function (Blueprint $table) {
+        Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('computer_brand');
-            $table->string('computer_model');
-            $table->string('comment');
+            $table->string('saskaitos_nr');
+            $table->string('short_comment');
             $table->string('address')->nullable();
             $table->string('postal_code')->nullable();
             $table->integer('delivery');
             $table->enum('busena', ['atlikta', 'pateikta', 'priimta', 'gauta', 'taisoma']);
-            $table->string('saskaitos_nr');
             $table->integer('comment_state')->default(0);
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
-        Schema::table('formas', function (Blueprint $table) {
-            $table->foreign('user_id', 'formas_to_user')->references('id')->on('users');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->foreign('user_id', 'orders_to_user')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -39,6 +37,6 @@ class CreateFormForComputerFixes extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('formas');
+        Schema::dropIfExists('orders');
     }
 }

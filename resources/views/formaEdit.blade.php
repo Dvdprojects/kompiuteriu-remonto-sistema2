@@ -28,7 +28,7 @@
                                 <p>{{Session::get('error')}}</p>
                             </div>
                         @endif
-                        <form id="pcRegistrationForm" action="{{url('/form-edit-post/' . $forms->id)}}" method="post">
+                        <form id="pcRegistrationForm" action="{{route('form-edit-post', $forms->id)}}" method="post">
                             {{ method_field('PUT') }}
                             {{ csrf_field() }}
                             <div class="row mb-4">
@@ -67,17 +67,17 @@
                             </div>
                             <!-- Kompiuterio gamintojas input -->
                             <div class="form-outline mb-4">
-                                <input type="text" id="computerBrand" name="computerBrand"  class="form-control" value="{{$forms->computer_brand}}" required/>
+                                <input type="text" id="computerBrand" name="computerBrand"  class="form-control" value="{{$forms->computer->computer_brand}}" required/>
                                 <label class="form-label" for="form6Example7">Kompiuterio gamintojas</label>
                             </div>
                             <!-- Kompiuterio modelis input -->
                             <div class="form-outline mb-4">
-                                <input type="text" id="computerModel" name="computerModel"  class="form-control" value="{{$forms->computer_model}}" required/>
+                                <input type="text" id="computerModel" name="computerModel"  class="form-control" value="{{$forms->computer->computer_model}}" required/>
                                 <label class="form-label" for="form6Example7">Kompiuterio modelis</label>
                             </div>
                             <!-- Komentaras input -->
                             <div class="form-outline mb-4">
-                                <textarea class="form-control" id="comment" name="comment"  rows="4"  required>{{$forms->comment}}</textarea>
+                                <textarea class="form-control" id="comment" name="comment"  rows="4"  required>{{$forms->short_comment}}</textarea>
                                 <label class="form-label" for="form6Example7">Komentaras</label>
                             </div>
 
@@ -118,8 +118,21 @@
                                     <option value="4">Taisoma</option>
                                     <option value="5">Atlikta</option>
                                 </select>
-                                <div class="form-outline mb-4">
-                                    <textarea class="form-control" id="mail" name="mail"  rows="4"  required></textarea>
+                                <div class="form-check d-flex justify-content-center mb-4">
+                                    <input
+                                        class="form-check-input me-2"
+                                        type="checkbox"
+                                        value="1"
+                                        id="mailCheckbox"
+                                        name="mailCheckbox"
+                                        @if(old('checkbox') == 1)
+                                            checked
+                                        @endif
+                                    />
+                                    <label class="form-check-label" for="form6Example8"> Ar siūsti laišką siuntėjui? </label>
+                                </div>
+                                <div id="mailDiv" class="form-outline mb-4" style="display: none">
+                                    <textarea class="form-control" id="mailBox" name="mailBox"  rows="4"></textarea>
                                     <label class="form-label" for="form6Example7">Laiškas kleintui</label>
                                 </div>
                             @endif
@@ -141,6 +154,13 @@
                     } else {
                         $('#addressDiv').hide();
                         $('#postalCodeDiv').hide();
+                    }
+                });
+                $('#mailCheckbox').click(function(){
+                    if($(this).is(':checked')){
+                        $('#mailDiv').show();
+                    } else {
+                        $('#mailDiv').hide();
                     }
                 });
             </script>
