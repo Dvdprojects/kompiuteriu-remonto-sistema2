@@ -83,14 +83,28 @@
                                 </div>
                     @endif
                         <!-- Kompiuterio gamintojas input -->
-                        <div class="form-outline mb-4">
-                            <input type="text" id="computerBrand" name="computerBrand" class="form-control" required/>
+                        <div class="form-check d-flex justify-content-center mb-4">
+                            <input
+                                    class="form-check-input me-2"
+                                    type="checkbox"
+                                    value="1"
+                                    id="from_guarantee"
+                                    name="from_guarantee"
+                            />
+                            <label class="form-check-label" for="form6Example8"> Garantinis taisymas? </label>
+                        </div>
+                        <div class="form-outline mb-4" id="computerBrandDiv">
+                            <input type="text" id="computerBrand" name="computerBrand" class="form-control"/>
                             <label class="form-label" for="form6Example7">Kompiuterio gamintojas</label>
                         </div>
                         <!-- Kompiuterio modelis input -->
-                        <div class="form-outline mb-4">
-                            <input type="text" id="computerModel" name="computerModel" class="form-control" required/>
+                        <div class="form-outline mb-4" id="computerModelDiv">
+                            <input type="text" id="computerModel" name="computerModel" class="form-control"/>
                             <label class="form-label" for="form6Example7">Kompiuterio modelis</label>
+                        </div>
+                        <div class="form-outline mb-4" id="guaranteeIdDiv" style="display: none">
+                            <input type="text" id="guaranteeId" name="guaranteeId" class="form-control"/>
+                            <label class="form-label" for="form6Example5">Garantijos numeris</label>
                         </div>
                         <!-- Komentaras input -->
                         <div class="form-outline mb-4">
@@ -140,6 +154,17 @@
             } else {
                 $('#addressDiv').hide();
                 $('#postalCodeDiv').hide();
+            }
+        });
+        $('#from_guarantee').click(function () {
+            if ($(this).is(':checked')) {
+                $('#computerBrandDiv').hide();
+                $('#computerModelDiv').hide();
+                $('#guaranteeIdDiv').show();
+            } else {
+                $('#computerBrandDiv').show();
+                $('#computerModelDiv').show();
+                $('#guaranteeIdDiv').hide();
             }
         });
     </script>

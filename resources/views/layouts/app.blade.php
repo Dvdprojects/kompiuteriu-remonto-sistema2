@@ -69,6 +69,9 @@
                         <li class="nav-item active">
                             <a class="nav-link active" aria-current="page" href="{{route('forma-all')}}">Istorija</a>
                         </li>
+                        <li class="nav-item active">
+                            <a class="nav-link active" aria-current="page" href="{{route('comments-list')}}">Atsiliepimai</a>
+                        </li>
                         @if(Auth::user()->role != 1)
                             <li class="nav-item active">
                                 <a class="nav-link active" aria-current="page"

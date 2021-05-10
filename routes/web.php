@@ -37,7 +37,9 @@ Route::middleware(['checkProfileState'])->group(function () {
     Route::get('/download-guarantee/{id}', [App\Http\Controllers\OrderController::class, 'guaranteeDownload'])->name('download-guarantee')->whereNumber('id');
     Route::get('/leave-comment/{id}', [App\Http\Controllers\OrderController::class, 'leaveComment'])->name('leave-comment')->whereNumber('id');
     Route::put('/leave-comment-post/{id}', [App\Http\Controllers\OrderController::class, 'leaveCommentPost'])->name('leave-comment-post')->whereNumber('id');
-    Route::post('/form-show-datatables', [App\Http\Controllers\OrderController::class, 'showDatatable'])->name('form-show-datatables');
+	Route::post('/form-show-datatables', [App\Http\Controllers\OrderController::class, 'showDatatable'])->name('form-show-datatables');
+	Route::get('/comments', [App\Http\Controllers\OrderController::class, 'commentsList'])->name('comments-list');
+	Route::post('/comments-show-datatables', [App\Http\Controllers\OrderController::class, 'showDatatableComments'])->name('comments-show-datatables');
 });
 
 
@@ -53,7 +55,9 @@ Route::middleware(['adminCheck'])->group(function () {
     Route::get('/admin-user-edit-show/{id}', [App\Http\Controllers\UsersController::class, 'userEditShow'])->name('admin-user-edit-show')->whereNumber('id');
     Route::get('/admin-user-delete/{id}', [App\Http\Controllers\UsersController::class, 'userDelete'])->name('admin-user-delete')->whereNumber('id');
     Route::get('/admin-user-add-show', [App\Http\Controllers\UsersController::class, 'userAddShow'])->name('admin-user-add-show');
-    Route::put('/admin-user-add', [App\Http\Controllers\UsersController::class, 'userAdd'])->name('admin-user-add');
+	Route::put('/admin-user-add', [App\Http\Controllers\UsersController::class, 'userAdd'])->name('admin-user-add');
+	Route::get('/comment-delete/{id}', [App\Http\Controllers\OrderController::class, 'deleteComment'])->name('comment-delete')->whereNumber('id');
+	Route::get('/comment-change-visibility/{id}', [App\Http\Controllers\OrderController::class, 'changeCommentVisibility'])->name('comment-change-visibility')->whereNumber('id');
 
 });
 //Form Admin Routes End

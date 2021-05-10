@@ -32,11 +32,10 @@ class WelcomeController extends Controller
     }
     public function check(Request $request)
     {
-        $stateCheck = Order::select('busena')->where('saskaitos_nr', $request->saskNr)->get();
+        $stateCheck = Order::select('busena')->where('saskaitos_nr', $request->saskNr)->first();
         if ($stateCheck != null)
         {
-            $result[] = $stateCheck;
-            return response()->json($result);
+            return response()->json($stateCheck);
         }
         else
         {

@@ -120,11 +120,6 @@
             </div>
         </div>
     @endguest
-    <div class="row">
-        <div class="col-md-12">
-            <img src="{{asset('images\blade.png')}}" style="height: 100px; width: 100%" class="img-fluid" alt="..." />
-        </div>
-    </div>
     <div class="card text-center">
         <div class="card-body">
             <h5 class="card-title">Patikrinkite savo įrenginio remonto būseną, vieno mygtuko paspaudimu!</h5>
@@ -158,11 +153,9 @@
                     saskNr: jQuery('#saskNr').val(),
                 },
                 success: function (response) {
-                    responseDiv.innerText = "Jūsų remonto būsena: '" + response + "'";
-                    console.log(response);
+                    responseDiv.innerText = "Jūsų remonto būsena: '" + response.busena + "'";
                     },
                 error: function(xhr, status, error){
-                    console.log(error);
                     responseDiv.innerText = "Toks sąskaitos numeris neegzistuoja, prašome patikslinti numerį.";
                 }
                 });

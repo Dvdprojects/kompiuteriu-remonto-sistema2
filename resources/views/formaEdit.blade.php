@@ -6,7 +6,7 @@
             <div class="col-md-8">
                 <div class="card shadow-1-strong">
                     <div class="card-header">
-                        <h5 class="text-center">'Kompiuterio remonto registracija</h5>
+                        <h5 class="text-center">Kompiuterio remonto registracija</h5>
                         <br>
                         <br>
                         @if(count($errors) > 0)
@@ -65,14 +65,20 @@
                                 <input type="text" id="city" name="city"  class="form-control" value="{{$forms->user->city}}" disabled/>
                                 <label class="form-label" for="form6Example7">Miestas</label>
                             </div>
+                            @if($forms->garantinis_saskaitos_nr != null)
+                            <div class="form-outline mb-4">
+                                <input type="text" id="guaranteeId"  class="form-control" value="{{$forms->garantinis_saskaitos_nr}}" disabled/>
+                                <label class="form-label" for="form6Example7">Garantijos nr</label>
+                            </div>
+                            @endif
                             <!-- Kompiuterio gamintojas input -->
                             <div class="form-outline mb-4">
-                                <input type="text" id="computerBrand" name="computerBrand"  class="form-control" value="{{$forms->computer->computer_brand}}" required/>
+                                <input type="text" id="computerBrand" name="computerBrand"  class="form-control" value="{{$forms->computer->computer_brand}}" @if($forms->garantinis_saskaitos_nr != null) disabled @else required @endif/>
                                 <label class="form-label" for="form6Example7">Kompiuterio gamintojas</label>
                             </div>
                             <!-- Kompiuterio modelis input -->
                             <div class="form-outline mb-4">
-                                <input type="text" id="computerModel" name="computerModel"  class="form-control" value="{{$forms->computer->computer_model}}" required/>
+                                <input type="text" id="computerModel" name="computerModel"  class="form-control" value="{{$forms->computer->computer_model}}" @if($forms->garantinis_saskaitos_nr != null) disabled @else required @endif/>
                                 <label class="form-label" for="form6Example7">Kompiuterio modelis</label>
                             </div>
                             <!-- Komentaras input -->
@@ -111,12 +117,12 @@
                             <h5 class="text-center">Administravimo sekcija</h5>
                             <hr>
                                 <select class="form-select mb-4" id="busena" name="busena" aria-label="Default select example">
-                                    <option selected>Remonto būsenos pasirinkimas</option>
-                                    <option value="1">Pateikta</option>
-                                    <option value="2">Priimta</option>
-                                    <option value="3">Gauta</option>
-                                    <option value="4">Taisoma</option>
-                                    <option value="5">Atlikta</option>
+                                    <option disabled>Remonto būsenos pasirinkimas</option>
+                                    <option value="1" @if($forms->busena == "pateikta") selected @endif>Pateikta</option>
+                                    <option value="2" @if($forms->busena == "priimta") selected @endif>Priimta</option>
+                                    <option value="3" @if($forms->busena == "gauta") selected @endif>Gauta</option>
+                                    <option value="4" @if($forms->busena == "taisoma") selected @endif>Taisoma</option>
+                                    <option value="5" @if($forms->busena == "atlikta") selected @endif>Atlikta</option>
                                 </select>
                                 <div class="form-check d-flex justify-content-center mb-4">
                                     <input

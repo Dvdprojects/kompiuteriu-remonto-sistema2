@@ -72,12 +72,14 @@
                                 </div>
                             <!-- Komentaras input -->
                             <div class="form-outline mb-4">
-                                <textarea class="form-control" id="comment" name="comment"  rows="4" required></textarea>
+                                <textarea class="form-control" id="comment" name="comment"  rows="4" @if($forms->comment != null && Auth::user()->role != 1) disabled @else required @endif>{{ $forms->comment != null ? $forms->comment->comment : "" }}</textarea>
                                 <label class="form-label" for="form6Example7">Komentaras</label>
                             </div>
 
                             <!-- Submit button -->
+                            @if($forms->comment == null || Auth::user()->role == 1)
                             <button type="submit" class="btn btn-primary btn-block mb-4">Pateikti</button>
+                            @endif
                         </form>
                     </div>
                 </div>
@@ -89,9 +91,12 @@
                 $(function () {
                     $("#rateYo").rateYo({
                         starWidth: "50px",
-                        rating: 1,
+                        rating: @if($forms->comment != null) {{ $forms->comment->rating }} @else 1 @endif,
                         precision: 1,
                         fullStar: true,
+                        @if($forms->comment != null)
+                        readOnly: true,
+                        @endif
                         onChange: function (rating, rateYoInstance) {
                             var normalFill = $("#rateYo").rateYo("option", "rating");
                             $('#rating').val(normalFill);
