@@ -287,15 +287,18 @@ class OrderController extends Controller
     }
     public function leaveCommentPost(Request $request, $id)
     {
-        $this->validate($request, [
-            'comment' => 'required | max:255',
-            'rating' => 'numeric | min: 1 | max: 5',
-        ]);
         $user = Auth::user();
         if ($user->role == 1) {
+			$this->validate($request, [
+				'comment' => 'required | max:255',
+			]);
 			$forms = Order::findOrFail($id);
 		}
         else {
+			$this->validate($request, [
+				'comment' => 'required | max:255',
+				'rating' => 'numeric | min: 1 | max: 5',
+			]);
 			$forms = Auth::user()->order()->findOrFail($id);
 		}
         if ($forms->comment != null) {
