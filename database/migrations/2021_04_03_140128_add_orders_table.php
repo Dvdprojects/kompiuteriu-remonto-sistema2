@@ -23,7 +23,7 @@ class AddOrdersTable extends Migration
             $table->enum('busena', ['atlikta', 'pateikta', 'priimta', 'gauta', 'taisoma']);
             $table->integer('comment_state')->default(0);
             $table->unsignedBigInteger('user_id');
-			$table->string('garantinis_saskaitos_nr');
+			$table->string('garantinis_saskaitos_nr')->nullable();
             $table->timestamps();
         });
         Schema::table('orders', function (Blueprint $table) {
