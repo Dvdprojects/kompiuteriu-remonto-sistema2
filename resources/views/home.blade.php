@@ -22,41 +22,6 @@
                     <p>{{Session::get('error')}}</p>
                 </div>
             @endif
-            <div class="col-sm-4">
-                <div class="card shadow-1-strong">
-                    <div class="card-body text-left">
-                        <h5 class="text-center">Nauji forumo pranešimai</h5>
-                        <hr>
-                        @if($comments < 1)
-                            <p class="card-text">Naujų komentarų: <strong class="text-success">{{$comments}}</strong></p>
-                        @else
-                            <p class="card-text">Naujų komentarų: <strong class="text-danger">{{$comments}}</strong></p>
-                        @endif
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <img src="{{asset('images\clients.png')}}" alt="No IMG">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body text-center">
-                        <img src="{{asset('images\clients.png')}}" alt="No IMG">
-                        <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
         <div class="row">
             <div class="col-sm-4">
                 <div class="card shadow-1-strong">
@@ -82,7 +47,7 @@
                 </div>
             </div>
             <div class="col-sm-4">
-                <div class="card shadow-1-strong">
+                <div class="card shadow-1-strong h-100">
                     <div class="card-body text-left">
                         <h5 class="text-center">Atsiliepimų įvertinimo vidurkis</h5>
                         <hr>
@@ -98,33 +63,19 @@
                 </div>
             </div>
             <div class="col-sm-4">
-                <div class="card shadow-1-strong">
+                <div class="card shadow-1-strong h-100">
                     <div class="card-body text-left">
                         <h5 class="text-center">Vidutinė kompiuterio taisymo trukmė</h5>
                         <hr>
-                        <p class="card-text">{{ $time }}</p>
+                        <p class="card-text text-center">{{ $time }}</p>
                     </div>
                 </div>
             </div>
         </div>
-        <br>
-        <div class="row">
-            <div class="col-sm-8">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Specialus remontas</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="chart">
-                            <canvas id="chart1" width="400" height="400"></canvas>
-                        </div>
-                    </div>
-                </div>
+    </div>
+        <div class="row mt-5">
+            <div class="col-md-12 text-center">
+                <img src="https://i.ibb.co/PcPVQNM/main-page.png" class="img-fluid" alt="no photo" />
             </div>
         </div>
     </div>
