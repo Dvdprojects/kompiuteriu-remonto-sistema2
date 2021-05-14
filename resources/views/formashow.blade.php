@@ -23,6 +23,21 @@
                 <p>{{Session::get('error')}}</p>
             </div>
         @endif
+        <div class="row mb-2">
+            <div class="col-2 pt-1 ps-4 pe-0">
+                <label class="form-label d-inline mb-0" for="form6Example7">Filtruoti pagal būseną:</label>
+            </div>
+            <div class="col-3 ps-0">
+                <select class="form-select" id="busena" name="busena" aria-label="Default select example">
+                    <option value="-1" selected>Remonto būsenos pasirinkimas</option>
+                    <option value="1">Pateikta</option>
+                    <option value="2">Priimta</option>
+                    <option value="3">Gauta</option>
+                    <option value="4">Taisoma</option>
+                    <option value="5">Atlikta</option>
+                </select>
+            </div>
+        </div>
     <table id="formDataTable" class="table text-center">
     @include('Tables.UserFormsTableTop')
   <tbody>
@@ -45,8 +60,15 @@
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf"]').attr('content')
                     },
+                    data: function(jsonData) {
+                        jsonData.stateFilter = $('#busena').val();
+                    }
                 },
                 columnDefs: [
+                    {
+                        targets: 3,
+                        orderable: false
+                    },
                     {
                         className: 'text-center',
                         targets: 7,
@@ -92,7 +114,11 @@
                             return dataRow;
                         }
                     }
-                ]
+                ],
+                order: [5, 'desc'],
+            });
+            $('#busena').on('change', function(e) {
+                $('#formDataTable').DataTable().ajax.reload();
             });
         });
     </script>

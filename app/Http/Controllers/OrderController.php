@@ -326,12 +326,55 @@ class OrderController extends Controller
         $result['data'] = [];
         if (Auth::user()->role == 1)
         {
-            $allDataUser = Order::all();
+            $allDataUser = Order::query()->join('computers', 'computers.order_id', '=', 'orders.id');
         }
         else
         {
-            $allDataUser = auth()->user()->order;
+            $allDataUser = auth()->user()->order()->join('computers', 'computers.order_id', '=', 'orders.id');
         }
+
+		$totalCount = $allDataUser->count();
+		if (isset($request->order) && count($request->order) > 0) {
+			if ($request->order[0]['column'] == "0") {
+				$allDataUser = $allDataUser->orderBy('computer_brand', $request->order[0]['dir']);
+			}
+			else if ($request->order[0]['column'] == "1") {
+				$allDataUser = $allDataUser->orderBy('computer_model', $request->order[0]['dir']);
+			}
+			else if ($request->order[0]['column'] == "2") {
+				$allDataUser = $allDataUser->orderBy('short_comment', $request->order[0]['dir']);
+			}
+			else if ($request->order[0]['column'] == "4") {
+				$allDataUser = $allDataUser->orderBy('busena', $request->order[0]['dir']);
+			}
+			else if ($request->order[0]['column'] == "5") {
+				$allDataUser = $allDataUser->orderBy('saskaitos_nr', $request->order[0]['dir']);
+			}
+			else {
+				$allDataUser = $allDataUser->orderBy('garantinis_saskaitos_nr', $request->order[0]['dir']);
+			}
+		}
+
+		if (isset($request->stateFilter) && $request->stateFilter > 0 && $request->stateFilter < 6) {
+			if ($request->stateFilter == 1)
+				$allDataUser = $allDataUser->where('busena', '=', 'pateikta');
+			else if ($request->stateFilter == 2)
+				$allDataUser = $allDataUser->where('busena', '=', 'priimta');
+			else if ($request->stateFilter == 3)
+				$allDataUser = $allDataUser->where('busena', '=', 'gauta');
+			else if ($request->stateFilter == 4)
+				$allDataUser = $allDataUser->where('busena', '=', 'taisoma');
+			else if ($request->stateFilter == 5)
+				$allDataUser = $allDataUser->where('busena', '=', 'atlikta');
+		}
+
+		if (!empty($request->search['value'])) {
+			$allDataUser = $allDataUser->where('saskaitos_nr', 'LIKE', '%' . $request->search['value'] . '%');
+		}
+
+		$count = $allDataUser->count();
+		$allDataUser = $allDataUser->offset($request->start)->limit($request->length)->get();
+
         $user = auth()->user();
         if (count($allDataUser) > 0)
         {
@@ -364,8 +407,8 @@ class OrderController extends Controller
             }
         }
         $result['success'] = true;
-        $result['recordsTotal'] = count($allDataUser);
-        $result['recordsFiltered'] = count($result['data']);
+        $result['recordsTotal'] = $totalCount;
+        $result['recordsFiltered'] = $count;
         $result['draw'] = $request->draw;
         return response()->json($result);
     }

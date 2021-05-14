@@ -69,12 +69,12 @@
                                 <label class="form-label" for="form6Example7">Miestas</label>
                             </div>
                         @else
-                            <input id="userId" type="hidden" value="" name="userId">
+                            <input id="userId" type="hidden" value="{{Auth::user()->id}}" name="userId">
                             <div class="row mb-4">
                                     <select class="form-control" id="select-user"
                                             data-live-search="true">
                                         @forelse($users as $user)
-                                            <option value="{{$user->id}}">{{$user->name . " " . $user->surname}}</option>
+                                            <option value="{{$user->id}}" @if($user->id == Auth::user()->id) selected @endif>{{$user->name . " " . $user->surname}}</option>
                                         @empty
                                             <option>No Data</option>
                                         @endforelse
